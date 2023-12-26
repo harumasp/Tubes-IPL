@@ -1,0 +1,5 @@
+li a:hover,
+.dropdown:hover .dropbtn {
+    background-color: #c85250;
+    transition: all 0.5s ease;
+}

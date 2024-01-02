@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daftar Paket Cucian Mobil</title>
+    <style>
+      body {
+        font-family: "Times New Roman", Times, serif;
+        background: url("BgBaru.jpg") no-repeat center center fixed;
+        background-size: cover;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 50px auto;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.9
+        ); /* Added background color with opacity */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        color: #c85250;
+      }
+
+      .package {
+        border-bottom: 1px solid #ddd;
+        padding: 15px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .package:last-child {
+        border-bottom: none;
+      }
+
+      .package h2 {
+        margin: 0;
+        color: #333;
+      }
+
+      .package p {
+        margin: 0;
+        color: #777;
+      }
+
+      #backButton {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        padding: 10px 10px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+        /* Sesuaikan ukuran font sesuai keinginan */
+
+        /* Tambahkan style agar tombol pendek dan kecil */
+        width: auto;
+        height: auto;
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Tentang Kami</h1>
+
+      <div class="package">
+        <div>
+          <h2>Paket Cuci Mobil Komprehensif</h2>
+          <p>
+            Kami menawarkan berbagai paket cuci mobil yang sesuai dengan
+            kebutuhan dan anggaran Anda. Mulai dari cuci dasar hingga layanan
+            premium yang mencakup perawatan interior dan eksterior yang
+            menyeluruh.
+          </p>
+        </div>
+      </div>
+
+      <div class="package">
+        <div>
+          <h2>Kebersihan Maksimal</h2>
+          <p>
+            Kami mengutamakan kebersihan dan keamanan. Dengan proses cuci yang
+            efisien dan ramah lingkungan, kami berkomitmen untuk memberikan
+            hasil maksimal tanpa merusak eksterior kendaraan Anda.
+          </p>
+        </div>
+      </div>
+
+      <div class="package">
+        <div>
+          <h2>Pelayanan Pelanggan Terbaik</h2>
+          <p>
+            Clean Car Wash tidak hanya menyediakan layanan cuci mobil, tetapi
+            juga memberikan pengalaman pelanggan yang istimewa. Tim pelayanan
+            pelanggan kami siap membantu Anda dengan ramah dan responsif,
+            menjawab pertanyaan atau permintaan Anda dengan senang hati.
+          </p>
+        </div>
+      </div>
+
+      <div class="package">
+        <div>
+          <h2>Lingkungan Bersih dan Nyaman</h2>
+          <p>
+            Fasilitas kami didesain untuk menciptakan lingkungan yang bersih,
+            nyaman, dan menyenangkan. Kami percaya bahwa pelanggan yang puas
+            tidak hanya datang untuk layanan berkualitas tetapi juga untuk
+            pengalaman yang menyenangkan.
+          </p>
+        </div>
+      </div>
+      <button id="backButton" onclick="goBack()">Back</button>
+    </div>
+    <script>
+      function goBack() {
+        // Menggunakan fungsi window.history.back() untuk kembali ke halaman sebelumnya
+        window.history.back();
+      }
+    </script>
+  </body>
+</html>

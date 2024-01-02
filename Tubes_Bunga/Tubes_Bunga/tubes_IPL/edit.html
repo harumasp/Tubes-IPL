@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Pembayaran Carwash</title>
+    <style>
+      body {
+        background: url(car-wash.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 20px;
+        color: #fff;
+      }
+
+      h1 {
+        color: #fff;
+      }
+
+      form {
+        width: 300px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #2d5255;
+      }
+
+      input,
+      select,
+      button {
+        width: 100%;
+        margin: 10px 0;
+        padding: 10px;
+        box-sizing: border-box;
+        border: none;
+        border-bottom: 2px solid #ccc;
+        background-color: transparent;
+        color: #fff;
+      }
+
+      input:hover,
+      select:hover,
+      button:hover {
+        border-bottom: 2px solid #fff;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      #backButton {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        padding: 10px 10px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+        width: auto;
+        height: auto;
+        white-space: nowrap;
+      }
+
+      /* Add a style for error messages */
+      #errorMessage {
+        color: red;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Edit Pembayaran</h1>
+
+    <form id="editPaymentForm">
+      <input
+        type="text"
+        id="editedNama"
+        name="editedNama"
+        placeholder="Nama Pemilik Kendaraan"
+        required
+      />
+      <select id="editedJenis" name="editedJenis" required>
+        <option value="sedan">Sedan</option>
+        <option value="suv">SUV</option>
+        <option value="hatchback">Hatchback</option>
+        <option value="pickup">Pickup</option>
+        <option value="truck">Truck</option>
+      </select>
+      <select id="editedDaftarpaket" name="editedDaftarpaket" required>
+        <option value="100000">Hidrolik Plus Fogging - Rp.100.000</option>
+        <option value="50000">Hidrolik - Rp.50.000</option>
+        <option value="40000">Manual - Rp.40.000</option>
+      </select>
+      <input
+        type="number"
+        id="editedTotalPembayaran"
+        name="editedTotalPembayaran"
+        placeholder="Total Pembayaran"
+        required
+      />
+      <button type="button" onclick="updatePayment()">Simpan Perubahan</button>
+    </form>
+
+    <button id="backButton" onclick="goBack()">Back</button>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        loadDataForEdit();
+
+        // Tambahkan event listener pada perubahan daftar paket
+        document
+          .getElementById("editedDaftarpaket")
+          .addEventListener("change", updateTotalPembayaran);
+      });
+
+      async function loadDataForEdit() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const nomorAntrian = urlParams.get("nomorAntrian");
+
+        try {
+          const response = await fetch(
+            `get_payment_data.php?nomorAntrian=${nomorAntrian}`
+          );
+          const data = await response.json();
+
+          document.getElementById("editedNama").value = data.nama;
+          document.getElementById("editedJenis").value = data.jenis;
+          document.getElementById("editedDaftarpaket").value = data.daftarpaket;
+
+          // Check if the total_pembayaran property exists and is a number
+          if (
+            "total_pembayaran" in data &&
+            typeof data.total_pembayaran === "number"
+          ) {
+            document.getElementById("editedTotalPembayaran").value =
+              data.total_pembayaran;
+          } else {
+            console.error(
+              "total_pembayaran property not found or not a number in the data:",
+              data
+            );
+          }
+        } catch (error) {
+          console.error("Error loading data for edit:", error);
+        }
+      }
+
+      function updateTotalPembayaran() {
+        // Dapatkan nilai dari daftar paket yang dipilih
+        const selectedDaftarpaket =
+          document.getElementById("editedDaftarpaket").value;
+
+        // Hitung total pembayaran sesuai dengan daftar paket yang dipilih
+        const totalPembayaran = parseInt(selectedDaftarpaket);
+
+        // Check if totalPembayaran is a valid number
+        if (!isNaN(totalPembayaran)) {
+          // Setel nilai total pembayaran pada elemen HTML
+          document.getElementById("editedTotalPembayaran").value =
+            totalPembayaran;
+        } else {
+          console.error("Invalid totalPembayaran value:", totalPembayaran);
+          // Handle the case where total_pembayaran is not valid, set it to 0 or handle as needed
+          document.getElementById("editedTotalPembayaran").value = 0;
+        }
+      }
+
+      async function updatePayment() {
+        try {
+          var editedNama = document.getElementById("editedNama").value;
+          var editedJenis = document.getElementById("editedJenis").value;
+          var editedDaftarpaket =
+            document.getElementById("editedDaftarpaket").value;
+          var editedTotalPembayaran = document.getElementById(
+            "editedTotalPembayaran"
+          ).value;
+
+          const urlParams = new URLSearchParams(window.location.search);
+          const nomorAntrian = urlParams.get("nomorAntrian");
+
+          // Existing code to send data to the server
+          const response = await fetch("update_payment.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              nomorAntrian: nomorAntrian,
+              editedNama: editedNama,
+              editedJenis: editedJenis,
+              editedDaftarpaket: editedDaftarpaket,
+              editedTotalPembayaran: editedTotalPembayaran,
+            }),
+          });
+
+          const result = await response.json();
+
+          if (result.status === "success") {
+            alert("Perubahan disimpan dengan sukses!");
+
+            // Redirect to Pembayaran_Antrian.php with the edited nomorAntrian
+            window.location.href = `Pembayaran_Antrian.php?editedNomorAntrian=${nomorAntrian}`;
+          } else {
+            console.error("Error updating payment:", result.message);
+            alert("Gagal menyimpan perubahan. Silakan coba lagi.");
+          }
+        } catch (error) {
+          console.error("Error updating payment:", error);
+          alert("Terjadi kesalahan. Silakan coba lagi.");
+        }
+      }
+
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+  </body>
+</html>
